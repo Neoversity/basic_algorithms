@@ -1,4 +1,4 @@
-# basic_algorithms
+# basic_algorithms Домашнє завдання до теми “Рекурсивні функції, алгоритми та приклади їх застосування”
 
 # Python Scripts
 
