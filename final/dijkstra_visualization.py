@@ -25,9 +25,12 @@ def visualize_graph(graph, shortest_paths=None, start_node=None):
     if shortest_paths and start_node:
         path_edges = []
         for target_node in shortest_paths:
-            if target_node != start_node:
-                path = nx.shortest_path(G, source=start_node, target=target_node, weight='weight')
-                path_edges += list(zip(path[:-1], path[1:]))
+            if target_node != start_node and shortest_paths[target_node] != float('inf'):
+                try:
+                    path = nx.shortest_path(G, source=start_node, target=target_node, weight='weight')
+                    path_edges += list(zip(path[:-1], path[1:]))
+                except nx.NetworkXNoPath:
+                    continue
         nx.draw_networkx_edges(G, pos, edgelist=path_edges, edge_color='r', width=2)
 
     plt.title("Graph Visualization with Dijkstra's Shortest Paths")

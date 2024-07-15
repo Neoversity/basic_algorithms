@@ -8,8 +8,8 @@ def main():
         print("Select a task to execute:")
         print("1. Linked List Operations")
         print("2. Pythagoras Tree Fractal")
-        print("3. Dijkstra's Algorithm GUI")
-        print("4. Dijkstra's Algorithm Visualization")
+        print("3. Dijkstra's Algorithm")
+        print("4. Dijkstra's Algorithm GUI")
         print("5. Exit")
         choice = input("Enter your choice (1/2/3/4/5): ")
 
