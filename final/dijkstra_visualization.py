@@ -16,7 +16,7 @@ def visualize_graph(graph, shortest_paths=None, start_node=None):
         G.add_edge(from_node, to_node, weight=weight)
 
     pos = nx.spring_layout(G)  # позиції вершин для візуалізації
-    edge_labels = {(u, v): f'{d["weight"]}' for u, v, d in G.edges(data=True)}
+    edge_labels = {(u, v): f'{d["weight"]:.2f}' for u, v, d in G.edges(data=True)}
 
     plt.figure(figsize=(10, 7))
     nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=2000, font_size=15, font_weight='bold', arrows=True)

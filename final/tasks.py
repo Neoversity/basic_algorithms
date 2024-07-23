@@ -1,8 +1,10 @@
 from linked_list import create_node, append, print_list, reverse, insertion_sort, merge_sorted_lists
-from pythagoras_tree import draw_tree
-from dijkstra_gui import run_dijkstra_app, generate_connected_random_graph
+from pythagoras_tree import draw_tree as draw_pythagoras_tree
+from dijkstra_gui import generate_connected_random_graph
 from dijkstra_visualization import visualize_graph
 from dijkstra_gui import Graph, dijkstra
+from heap_visualization import array_to_heap, draw_heap_tree
+from tree_traversal_visualization import visualize_dfs, visualize_bfs
 
 def task_1():
     """
@@ -53,7 +55,7 @@ def task_2():
     Виконує завдання 2: малювання фрактала "дерево Піфагора".
     """
     level = int(input("Enter the recursion level for the Pythagoras tree: "))
-    draw_tree(level)
+    draw_pythagoras_tree(level)
 
 def task_3():
     """
@@ -87,12 +89,33 @@ def task_3():
 
     print("Shortest paths from node {}: ".format(start_node))
     for node, distance in shortest_paths.items():
-        print("Distance to {}: {}".format(node, distance))
+        print("Distance to {}: {:.2f}".format(node, distance))
 
     visualize_graph(graph, shortest_paths, start_node)
 
 def task_4():
     """
-    Виконує завдання 4: візуалізація графа та найкоротших шляхів.
+    Виконує завдання 4: візуалізація бінарної купи.
     """
-    run_dijkstra_app()
+    heap_array = [int(x) for x in input("Enter the elements of the heap (space-separated): ").split()]
+    heap_root = array_to_heap(heap_array)
+    draw_heap_tree(heap_root)
+
+def task_5():
+    """
+    Виконує завдання 5: візуалізація обходу бінарного дерева.
+    """
+    heap_array = [int(x) for x in input("Enter the elements of the tree (space-separated): ").split()]
+    heap_root = array_to_heap(heap_array)
+    
+    print("Select traversal method:")
+    print("1. Depth-First Search (DFS)")
+    print("2. Breadth-First Search (BFS)")
+    choice = input("Enter your choice (1/2): ")
+
+    if choice == '1':
+        visualize_dfs(heap_root)
+    elif choice == '2':
+        visualize_bfs(heap_root)
+    else:
+        print("Invalid choice. Please try again.")
