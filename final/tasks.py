@@ -5,6 +5,8 @@ from dijkstra_visualization import visualize_graph
 from dijkstra_gui import Graph, dijkstra
 from heap_visualization import array_to_heap, draw_heap_tree
 from tree_traversal_visualization import visualize_dfs, visualize_bfs
+from food_selection import greedy_algorithm, dynamic_programming
+from monte_carlo_dice import run_monte_carlo_simulation
 
 def task_1():
     """
@@ -119,3 +121,36 @@ def task_5():
         visualize_bfs(heap_root)
     else:
         print("Invalid choice. Please try again.")
+
+def task_6():
+    """
+    Виконує завдання 6: жадібний алгоритм та динамічне програмування для вибору їжі.
+    """
+    items = {
+        "pizza": {"cost": 50, "calories": 300},
+        "hamburger": {"cost": 40, "calories": 250},
+        "hot-dog": {"cost": 30, "calories": 200},
+        "pepsi": {"cost": 10, "calories": 100},
+        "cola": {"cost": 15, "calories": 220},
+        "potato": {"cost": 25, "calories": 350}
+    }
+    
+    budget = int(input("Enter your budget: "))
+    
+    print("Greedy Algorithm Result:")
+    greedy_result = greedy_algorithm(items, budget)
+    print("Selected items:", greedy_result[0])
+    print("Total calories:", greedy_result[1])
+    print("Total cost:", greedy_result[2])
+    
+    print("\nDynamic Programming Result:")
+    dp_result = dynamic_programming(items, budget)
+    print("Selected items:", dp_result[0])
+    print("Total calories:", dp_result[1])
+    print("Total cost:", dp_result[2])
+
+def task_7():
+    """
+    Виконує завдання 7: метод Монте-Карло для визначення ймовірностей сум при киданні двох кубиків.
+    """
+    run_monte_carlo_simulation()
