@@ -2,10 +2,11 @@ import heapq
 import matplotlib.pyplot as plt
 import networkx as nx
 
+
 def visualize_cable_connection(cables):
     # Перетворимо список кабелів на мін-купу
     heapq.heapify(cables)
-    
+
     total_cost = 0  # Змінна для зберігання загальних витрат
     steps = []  # Список для зберігання кроків об'єднання кабелів
 
@@ -13,23 +14,24 @@ def visualize_cable_connection(cables):
         # Витягуємо два найменші кабелі
         first_min = heapq.heappop(cables)
         second_min = heapq.heappop(cables)
-        
+
         # Об'єднуємо їх і додаємо витрати на з'єднання
         cost = first_min + second_min
         total_cost += cost
-        
+
         # Додаємо новий об'єднаний кабель назад до купи
         heapq.heappush(cables, cost)
-        
+
         # Зберігаємо крок для подальшої візуалізації
         steps.append((first_min, second_min, cost, list(cables)))
 
     return total_cost, steps
 
+
 def draw_heap(heap, ax, title):
     G = nx.DiGraph()
     labels = {}
-    
+
     def add_edges(parent_idx):
         # Додаємо ребра для дерева купи
         left_idx = 2 * parent_idx + 1
@@ -40,24 +42,44 @@ def draw_heap(heap, ax, title):
         if right_idx < len(heap):
             G.add_edge(parent_idx, right_idx)
             add_edges(right_idx)
-    
+
     for i in range(len(heap)):
         G.add_node(i, label=heap[i])
         labels[i] = heap[i]
-    
+
     if heap:
         add_edges(0)
-    
+
     # Використовуємо функцію hierarchy_pos для правильного розташування вузлів у вигляді піраміди
     pos = hierarchy_pos(G, 0) if heap else {}
-    nx.draw(G, pos, labels=labels, with_labels=True, node_size=2000, node_color="skyblue", ax=ax)
+    nx.draw(
+        G,
+        pos,
+        labels=labels,
+        with_labels=True,
+        node_size=2000,
+        node_color="skyblue",
+        ax=ax,
+    )
     ax.set_title(title)
 
-def hierarchy_pos(G, root=None, width=1., vert_gap=0.2, vert_loc=0, xcenter=0.5):
+
+def hierarchy_pos(G, root=None, width=1.0, vert_gap=0.2, vert_loc=0, xcenter=0.5):
     pos = _hierarchy_pos(G, root, width, vert_gap, vert_loc, xcenter)
     return pos
 
-def _hierarchy_pos(G, root, width=1., vert_gap=0.2, vert_loc=0, xcenter=0.5, pos=None, parent=None, parsed=None):
+
+def _hierarchy_pos(
+    G,
+    root,
+    width=1.0,
+    vert_gap=0.2,
+    vert_loc=0,
+    xcenter=0.5,
+    pos=None,
+    parent=None,
+    parsed=None,
+):
     if pos is None:
         pos = {root: (xcenter, vert_loc)}
     if parsed is None:
@@ -73,8 +95,19 @@ def _hierarchy_pos(G, root, width=1., vert_gap=0.2, vert_loc=0, xcenter=0.5, pos
         for neighbor in neighbors:
             nextx += dx
             pos[neighbor] = (nextx, vert_loc - vert_gap)
-            pos = _hierarchy_pos(G, neighbor, width=dx, vert_gap=vert_gap, vert_loc=vert_loc-vert_gap, xcenter=nextx, pos=pos, parent=root, parsed=parsed)
+            pos = _hierarchy_pos(
+                G,
+                neighbor,
+                width=dx,
+                vert_gap=vert_gap,
+                vert_loc=vert_loc - vert_gap,
+                xcenter=nextx,
+                pos=pos,
+                parent=root,
+                parsed=parsed,
+            )
     return pos
+
 
 def plot_steps(steps):
     # Створюємо підплоти для кожного кроку
@@ -84,10 +117,15 @@ def plot_steps(steps):
         axs = [axs]
 
     for i, (first_min, second_min, cost, cables) in enumerate(steps):
-        draw_heap(cables, axs[i], f"Step {i + 1}: Combine {first_min} and {second_min} -> New Cable {cost}")
+        draw_heap(
+            cables,
+            axs[i],
+            f"Step {i + 1}: Combine {first_min} and {second_min} -> New Cable {cost}",
+        )
 
     plt.tight_layout()
     plt.show()
+
 
 # Приклад використання
 cables = [4, 3, 2, 6]
